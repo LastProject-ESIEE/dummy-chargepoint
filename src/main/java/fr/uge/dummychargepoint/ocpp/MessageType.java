@@ -4,7 +4,7 @@ public enum MessageType {
 
   REQUEST(2),
   RESPONSE(3),
-  UNKNOWN(-1);
+  ERROR(4);
 
   private final int callType;
 
@@ -22,7 +22,7 @@ public enum MessageType {
         return messageType;
       }
     }
-    return UNKNOWN;
+    throw new IllegalArgumentException("Unknown call type: " + callType);
   }
 
 }
