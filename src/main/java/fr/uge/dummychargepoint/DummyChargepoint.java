@@ -1,5 +1,6 @@
 package fr.uge.dummychargepoint;
 
+import fr.uge.dummychargepoint.input.Type;
 import fr.uge.dummychargepoint.socket.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,15 +18,15 @@ public class DummyChargepoint {
       usage();
       System.exit(ERROR_CODE);
     }
-    switch (args[0].toUpperCase(Locale.ROOT)) {
-      case "SERVER" -> {
+    switch (Type.valueOf(args[0].toUpperCase(Locale.ROOT))) {
+      case Type.SERVER -> {
         var port = Integer.parseInt(args[1]);
         var application = new Application(port);
         application.start();
       }
-      case "CLIENT" -> {
+      case Type.CLIENT -> {
         if (args.length < 4) {
-          LOGGER.error("Not enough arguments for client mode, expected 4 arguments.");
+          LOGGER.error("Not enough arguments for client, expected 4 arguments.");
           usage();
           System.exit(ERROR_CODE);
         }
@@ -35,12 +36,17 @@ public class DummyChargepoint {
         var application = new Application(remoteHost, remotePort, localPort);
         application.connectBlocking();
       }
+      default -> {
+        LOGGER.error("Wrong type given, must be CLIENT or SERVER.");
+        usage();
+        System.exit(ERROR_CODE);
+      }
     }
   }
 
   private static void usage() {
-    System.out.println("Server mode: SERVER <local port>");
-    System.out.println("Client mode: CLIENT <remote address> <remote port> <local port>");
+    System.out.println("Server: SERVER <local port>");
+    System.out.println("Client: CLIENT <remote address> <remote port> <local port>");
   }
 
 }
