@@ -25,15 +25,14 @@ public class DummyChargepoint {
         application.start();
       }
       case Type.CLIENT -> {
-        if (args.length < 4) {
-          LOGGER.error("Not enough arguments for client, expected 4 arguments.");
+        if (args.length < 3) {
+          LOGGER.error("Not enough arguments for client, expected 3 arguments.");
           usage();
           System.exit(ERROR_CODE);
         }
         var remoteHost = args[1];
         var remotePort = Integer.parseInt(args[2]);
-        var localPort = Integer.parseInt(args[3]);
-        var application = new Application(remoteHost, remotePort, localPort);
+        var application = new Application(remoteHost, remotePort);
         application.connectBlocking();
       }
       default -> {
@@ -46,7 +45,7 @@ public class DummyChargepoint {
 
   private static void usage() {
     System.out.println("Server: SERVER <local port>");
-    System.out.println("Client: CLIENT <remote address> <remote port> <local port>");
+    System.out.println("Client: CLIENT <remote address> <remote port>");
   }
 
 }

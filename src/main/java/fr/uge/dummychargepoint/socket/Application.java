@@ -11,11 +11,14 @@ public class Application {
   private final ConfigurationApplication application;
 
   public Application(int port) {
+    if (port < 1024) {
+      throw new IllegalArgumentException("Port must be above 1024.");
+    }
     isServer = true;
     application = new ConfigurationServer(new InetSocketAddress(port));
   }
 
-  public Application(String remoteHost, int remotePort, int localPort) throws URISyntaxException {
+  public Application(String remoteHost, int remotePort) throws URISyntaxException {
     isServer = false;
     var serverUri = new URI("ws://" + remoteHost + ":" + remotePort);
     application = new ConfigurationClient(serverUri, Map.of());
