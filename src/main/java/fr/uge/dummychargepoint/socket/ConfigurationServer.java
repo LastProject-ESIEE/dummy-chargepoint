@@ -50,4 +50,9 @@ public class ConfigurationServer extends WebSocketServer implements Configuratio
   public void onStart() {
     LOGGER.info("Websocket server started");
   }
+
+  @Override
+  public boolean connectBlocking() throws InterruptedException {
+    throw new UnsupportedOperationException("Server cannot connect to other servers.");
+  }
 }

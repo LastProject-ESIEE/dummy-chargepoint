@@ -44,4 +44,9 @@ public class ConfigurationClient extends WebSocketClient implements Configuratio
       LOGGER.warn("Cannot send message. Connection is not open.");
     }
   }
+
+  @Override
+  public void start() {
+    throw new UnsupportedOperationException("Client cannot start a server.");
+  }
 }
