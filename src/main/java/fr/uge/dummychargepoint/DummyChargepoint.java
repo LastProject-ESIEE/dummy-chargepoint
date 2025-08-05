@@ -1,15 +1,21 @@
 package fr.uge.dummychargepoint;
 
 import fr.uge.dummychargepoint.socket.Application;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.net.URISyntaxException;
 import java.util.Locale;
 
 public class DummyChargepoint {
 
+  private static final int ERROR_CODE = 1;
+  private static final Logger LOGGER = LoggerFactory.getLogger(DummyChargepoint.class);
+
   public static void main(String[] args) throws URISyntaxException, InterruptedException {
     if (args.length < 2) {
-      throw new AssertionError();
+      LOGGER.error("Not enough arguments, expected at least 2.");
+      usage();
+      System.exit(ERROR_CODE);
     }
     switch (args[0].toUpperCase(Locale.ROOT)) {
       case "SERVER" -> {
@@ -19,7 +25,9 @@ public class DummyChargepoint {
       }
       case "CLIENT" -> {
         if (args.length < 4) {
-          throw new AssertionError();
+          LOGGER.error("Not enough arguments for client mode, expected 4 arguments.");
+          usage();
+          System.exit(ERROR_CODE);
         }
         var remoteHost = args[1];
         var remotePort = Integer.parseInt(args[2]);
@@ -29,4 +37,10 @@ public class DummyChargepoint {
       }
     }
   }
+
+  private static void usage() {
+    System.out.println("Server mode: SERVER <local port>");
+    System.out.println("Client mode: CLIENT <remote address> <remote port> <local port>");
+  }
+
 }
