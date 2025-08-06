@@ -41,6 +41,4 @@ class ConfigurationClientIntegrationTest {
     assertThat(connected).isTrue();
   }
 
-
-
 }
