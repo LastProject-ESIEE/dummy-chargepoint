@@ -1,0 +1,63 @@
+package fr.uge.dummychargepoint.socket;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class ConfigurationServerIntegrationTest {
+
+  private static final int RANDOM_PORT = 0;
+
+  private static ConfigurationServer server;
+
+  @BeforeAll
+  static void start() throws InterruptedException {
+    server = new ConfigurationServer(new InetSocketAddress(RANDOM_PORT));
+    server.start();
+    Thread.sleep(500);
+  }
+
+  @AfterAll
+  static void stop() throws InterruptedException {
+    server.stop();
+    Thread.sleep(500);
+  }
+
+  @Test
+  void should_accept_client_connection() throws URISyntaxException, InterruptedException {
+    // given
+    var serverUri = new URI("ws://localhost:" + server.getPort());
+    var client = new MockWebSocketClient(serverUri, Map.of());
+
+    // when
+    var connected = client.connectBlocking();
+
+    // then
+    assertThat(connected).isTrue();
+    assertThat(server.getConnections()).hasSize(1);
+  }
+
+  @Test
+  void should_accept_only_one_connection() throws URISyntaxException, InterruptedException {
+    // given
+    var serverUri = new URI("ws://localhost:" + server.getPort());
+    var client = new MockWebSocketClient(serverUri, Map.of());
+    var secondClient = new MockWebSocketClient(serverUri, Map.of());
+
+    // when
+    var connected = client.connectBlocking();
+    var secondConnected = secondClient.connectBlocking();
+
+    // then
+    assertThat(connected).isTrue();
+    assertThat(secondConnected).isFalse();
+    assertThat(server.getConnections()).hasSize(1);
+  }
+
+}

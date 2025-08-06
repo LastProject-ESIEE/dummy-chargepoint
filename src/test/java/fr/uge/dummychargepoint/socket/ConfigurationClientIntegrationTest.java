@@ -12,13 +12,13 @@ import java.util.Map;
 
 class ConfigurationClientIntegrationTest {
 
-  private static final int PORT = 8887;
+  private static final int RANDOM_PORT = 0;
 
   private static MockWebSocketServer server;
 
   @BeforeAll
   static void startServer() throws InterruptedException {
-    server = new MockWebSocketServer(new InetSocketAddress(PORT));
+    server = new MockWebSocketServer(new InetSocketAddress(RANDOM_PORT));
     server.start();
     Thread.sleep(500);
   }
@@ -31,7 +31,7 @@ class ConfigurationClientIntegrationTest {
   @Test
   void should_connect_to_server() throws URISyntaxException, InterruptedException {
     // given
-    var serverUri = new URI("ws://localhost:" + PORT);
+    var serverUri = new URI("ws://localhost:" + server.getPort());
     var client = new ConfigurationClient(serverUri, Map.of());
 
     // when
