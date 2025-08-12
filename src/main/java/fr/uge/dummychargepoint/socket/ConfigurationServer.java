@@ -11,6 +11,7 @@ import java.util.Objects;
 public class ConfigurationServer extends WebSocketServer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationServer.class);
+  private static final int SERVER_BUSY_ERROR_CODE = 503;
 
   private WebSocket client;
   private final Object lock = new Object();
@@ -25,7 +26,7 @@ public class ConfigurationServer extends WebSocketServer {
     Objects.requireNonNull(clientHandshake);
     synchronized (lock) {
       if (client != null) {
-        webSocket.closeConnection(1, "Server is busy.");
+        webSocket.closeConnection(SERVER_BUSY_ERROR_CODE, "Server is busy.");
         return;
       }
       var remote = webSocket.getRemoteSocketAddress();
