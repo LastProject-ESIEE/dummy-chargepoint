@@ -59,4 +59,22 @@ class ConfigurationServerIntegrationTest {
     assertThat(server.getConnections()).hasSize(1);
   }
 
+  @Test
+  void should_accept_connection_after_disconnection() throws URISyntaxException, InterruptedException {
+    // given
+    var serverUri = new URI("ws://localhost:" + server.getPort());
+    var client = new MockWebSocketClient(serverUri, Map.of());
+    var secondClient = new MockWebSocketClient(serverUri, Map.of());
+
+    // when
+    var connected = client.connectBlocking();
+    assertThat(connected).isTrue();
+    client.closeBlocking();
+    var secondConnected = secondClient.connectBlocking();
+
+    // then
+    assertThat(secondConnected).isTrue();
+    assertThat(server.getConnections()).hasSize(1);
+  }
+
 }
