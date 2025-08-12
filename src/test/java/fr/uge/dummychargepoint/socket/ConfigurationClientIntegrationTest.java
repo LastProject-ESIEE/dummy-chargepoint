@@ -2,8 +2,8 @@ package fr.uge.dummychargepoint.socket;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -14,17 +14,17 @@ class ConfigurationClientIntegrationTest {
 
   private static final int RANDOM_PORT = 0;
 
-  private static MockWebSocketServer server;
+  private MockWebSocketServer server;
 
-  @BeforeAll
-  static void startServer() throws InterruptedException {
+  @BeforeEach
+  void startServer() throws InterruptedException {
     server = new MockWebSocketServer(new InetSocketAddress(RANDOM_PORT));
     server.start();
     Thread.sleep(500);
   }
 
-  @AfterAll
-  static void stopServer() throws InterruptedException {
+  @AfterEach
+  void stopServer() throws InterruptedException {
     server.stop();
   }
 

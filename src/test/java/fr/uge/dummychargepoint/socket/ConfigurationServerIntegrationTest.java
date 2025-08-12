@@ -1,7 +1,7 @@
 package fr.uge.dummychargepoint.socket;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -14,19 +14,18 @@ class ConfigurationServerIntegrationTest {
 
   private static final int RANDOM_PORT = 0;
 
-  private static ConfigurationServer server;
+  private ConfigurationServer server;
 
-  @BeforeAll
-  static void start() throws InterruptedException {
+  @BeforeEach
+  void start() throws InterruptedException {
     server = new ConfigurationServer(new InetSocketAddress(RANDOM_PORT));
     server.start();
     Thread.sleep(500);
   }
 
-  @AfterAll
-  static void stop() throws InterruptedException {
+  @AfterEach
+  void stop() throws InterruptedException {
     server.stop();
-    Thread.sleep(500);
   }
 
   @Test
