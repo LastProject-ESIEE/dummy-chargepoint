@@ -4,7 +4,6 @@ import fr.uge.dummychargepoint.exception.IllegalTypeException;
 import fr.uge.dummychargepoint.input.Type;
 import fr.uge.dummychargepoint.socket.Application;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +40,7 @@ public class DummyChargepoint {
 
   private static void handleServer(String[] args) {
     if (args.length < 2) {
-      LOGGER.error("Not enough arguments, expected at least 2.{}", Arrays.toString(args));
+      LOGGER.error("Not enough arguments, expected at least 2.");
       usage();
       System.exit(ERROR_CODE);
     }
