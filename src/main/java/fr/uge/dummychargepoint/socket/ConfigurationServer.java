@@ -17,7 +17,7 @@ public class ConfigurationServer extends WebSocketServer {
   private final Object lock = new Object();
 
   public ConfigurationServer(InetSocketAddress address) {
-    super(address);
+    super(Objects.requireNonNull(address));
   }
 
   @Override
