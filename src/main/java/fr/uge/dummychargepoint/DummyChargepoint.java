@@ -2,8 +2,12 @@ package fr.uge.dummychargepoint;
 
 import fr.uge.dummychargepoint.exception.IllegalTypeException;
 import fr.uge.dummychargepoint.input.Type;
-import fr.uge.dummychargepoint.socket.Application;
+import fr.uge.dummychargepoint.socket.ConfigurationClient;
+import fr.uge.dummychargepoint.socket.ConfigurationServer;
+import java.net.InetSocketAddress;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +26,10 @@ public class DummyChargepoint {
       LOGGER.error(e.getMessage());
       usage();
       System.exit(ERROR_CODE);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      LOGGER.error("Missing arguments");
+      usage();
+      System.exit(ERROR_CODE);
     }
   }
 
@@ -34,7 +42,7 @@ public class DummyChargepoint {
 
     var remoteHost = args[1];
     var remotePort = Integer.parseInt(args[2]);
-    var application = new Application(remoteHost, remotePort);
+    var application = new ConfigurationClient(new URI("ws://" + remoteHost + ":" + remotePort), Map.of());
     application.connectBlocking();
   }
 
@@ -46,7 +54,7 @@ public class DummyChargepoint {
     }
 
     var port = Integer.parseInt(args[1]);
-    var application = new Application(port);
+    var application = new ConfigurationServer(new InetSocketAddress(port));
     application.start();
   }
 
