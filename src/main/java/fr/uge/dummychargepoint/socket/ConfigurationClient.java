@@ -1,18 +1,19 @@
 package fr.uge.dummychargepoint.socket;
 
+import java.net.URI;
+import java.util.Map;
+import java.util.Objects;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.net.URI;
-import java.util.Map;
 
-public class ConfigurationClient extends WebSocketClient implements ConfigurationApplication {
+public class ConfigurationClient extends WebSocketClient {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationClient.class);
 
   public ConfigurationClient(URI serverUri, Map<String, String> httpHeaders) {
-    super(serverUri, httpHeaders);
+    super(Objects.requireNonNull(serverUri), Map.copyOf(httpHeaders));
   }
 
   @Override
@@ -43,10 +44,5 @@ public class ConfigurationClient extends WebSocketClient implements Configuratio
     } else {
       LOGGER.warn("Cannot send message. Connection is not open.");
     }
-  }
-
-  @Override
-  public void start() {
-    throw new UnsupportedOperationException("Client cannot start a server.");
   }
 }

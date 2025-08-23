@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.net.InetSocketAddress;
 import java.util.Objects;
 
-public class ConfigurationServer extends WebSocketServer implements ConfigurationApplication {
+public class ConfigurationServer extends WebSocketServer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationServer.class);
 
@@ -49,10 +49,5 @@ public class ConfigurationServer extends WebSocketServer implements Configuratio
   @Override
   public void onStart() {
     LOGGER.info("Websocket server started");
-  }
-
-  @Override
-  public boolean connectBlocking() throws InterruptedException {
-    throw new UnsupportedOperationException("Server cannot connect to other servers.");
   }
 }
