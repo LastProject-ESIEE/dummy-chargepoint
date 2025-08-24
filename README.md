@@ -31,7 +31,7 @@ To build the application, follow these steps:
 ## 🤝 Feedbacks and contributions
 
 Even though we work hard on this project, there could be some bugs or improvements.  
-However, you can contribute and help us implements improve this application.  
+However, you can contribute and help us improve this application.  
 Please feel free to contribute by [submitting an issue](https://github.com/LastProject-ESIEE/dummy-chargepoint/issues).
 Every contribution is welcome to make this project better every day !
 
